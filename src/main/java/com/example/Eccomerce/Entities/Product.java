@@ -10,7 +10,7 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="IDPRODUCTO")
+    @Column(name="IDPRODUCT")
     private Integer id ;
     @Column(name="NAME")
     private String name;
