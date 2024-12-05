@@ -2,6 +2,8 @@ package com.example.Eccomerce.Entities;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name="PRODUCTOS")
 public class Product {
@@ -13,7 +15,7 @@ public class Product {
     @Column(name="NAME")
     private String name;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne (cascade = CascadeType.ALL)
     @JoinColumn(name = "IDCATEGORY")
     private Category category;
 

@@ -5,9 +5,15 @@ import com.example.Eccomerce.Entities.Category;
 public class ProductDto {
     private Integer id;
     private String name;
-    private Category category;
+    private Integer id_category;
 
     public ProductDto() {
+    }
+
+    public ProductDto(Integer id, String name, Integer id_category) {
+        this.id = id;
+        this.name = name;
+        this.id_category = id_category;
     }
 
     public Integer getId() {
@@ -26,11 +32,11 @@ public class ProductDto {
         this.name = name;
     }
 
-    public Category getCategory() {
-        return category;
+    public Integer getId_category() {
+        return id_category;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setId_category(Integer id_category) {
+        this.id_category = id_category;
     }
 }

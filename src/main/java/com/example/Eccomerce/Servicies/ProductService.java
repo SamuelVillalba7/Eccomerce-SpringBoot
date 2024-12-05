@@ -1,35 +1,95 @@
 package com.example.Eccomerce.Servicies;
 
+import aj.org.objectweb.asm.Opcodes;
+import com.example.Eccomerce.Dto.ProductDto;
+import com.example.Eccomerce.Entities.Category;
 import com.example.Eccomerce.Entities.Product;
+import com.example.Eccomerce.Repositories.CategoryRepository;
 import com.example.Eccomerce.Repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ProductService {
     public ProductRepository repository;
+    public CategoryRepository repositoryCategory;
+
     @Autowired
-    public ProductService(ProductRepository repository){
-        this.repository=repository;
+    public ProductService(ProductRepository repository, CategoryRepository repositoryCategory) {
+        this.repository = repository;
+        this.repositoryCategory = repositoryCategory;
     }
 
-    public List<Product> findAll(){
-        return repository.findAll();
+    public List<ProductDto> findAll(){
+
+        List<ProductDto>listDto= new ArrayList<>();
+        List<Product>list = repository.findAll();
+
+        for(Product product:list){
+            listDto.add(new ProductDto(product.getId(), product.getName(), product.getCategory() != null ? product.getCategory().getId() : null));
+        }
+        return listDto;
     }
 
-    public Product update(Product product){
-        return repository.save(product);
+    public ProductDto update(ProductDto productDto){
+
+        Optional<Product>productOpc= repository.findById(productDto.getId());
+        Optional<Category>categoryOpc=repositoryCategory.findById(productDto.getId_category());
+        if(productOpc.isPresent() && categoryOpc.isPresent()){
+            Product product = productOpc.get();
+            Category category = categoryOpc.get();
+
+            product.setCategory(category);
+            product.setName(productDto.getName());
+            product.setId(productDto.getId());
+
+            repository.save(product);
+
+            productDto.setId(product.getId());
+            productDto.setName(product.getName());
+            productDto.setId_category(product.getCategory().getId());
+        }
+
+        return productDto;
     }
 
-    public Product save(ProductDto product){
-        return repository.save(product);
+    public ProductDto save(ProductDto productDto){
+
+        Product product = new Product();
+
+        Optional<Category> categoryOpc =repositoryCategory.findById(productDto.getId_category()) ;
+
+        if(categoryOpc.isPresent()){
+            Category category= categoryOpc.get();
+            product.setCategory(category);
+            product.setName(productDto.getName());
+
+            repository.save(product);
+
+            productDto.setId(product.getId());
+            productDto.setName(product.getName());
+            productDto.setId_category(product.getCategory().getId());
+
+        }
+        return productDto;
     }
 
-    public Optional<Product> findById(Integer id){
-        return repository.findById(id);
+    public Optional<ProductDto> findById(Integer id){
+        Optional<ProductDto> productDtoOpc= null;
+        Optional<Product>productOpc=repository.findById(id);
+        if(productOpc.isPresent()){
+            Product product= productOpc.get();
+            ProductDto productDto= new ProductDto();
+            productDto.setId(product.getId());
+            productDto.setName(product.getName());
+            productDto.setId_category(product.getCategory().getId());
+            productDtoOpc = Optional.of(productDto) ;
+        }
+        return productDtoOpc;
     }
 
     public void deleteById(Integer id){

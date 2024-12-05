@@ -1,6 +1,7 @@
 package com.example.Eccomerce.Controllers;
 
 
+import com.example.Eccomerce.Dto.ProductDto;
 import com.example.Eccomerce.Entities.Product;
 import com.example.Eccomerce.Servicies.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,18 +21,18 @@ public class ProductController {
         this.service=service;
     }
     @GetMapping("/findAll")
-    public List<Product> findAll(){
+    public List<ProductDto> findAll(){
         return service.findAll();
     }
 
     @PostMapping("/save")
-    public Product save(@RequestBody Product product){
-        return service.save(product);
+    public ProductDto save(@RequestBody ProductDto productDto){
+        return service.save(productDto);
     }
 
     @PutMapping("/update")
-    public Product update(@RequestBody Product product){
-        return service.update(product);
+    public ProductDto update(@RequestBody ProductDto productDto){
+        return service.update(productDto);
     }
 
     @DeleteMapping("/delete")
@@ -40,7 +41,7 @@ public class ProductController {
     }
 
     @GetMapping("/findById/{id}")
-    public Optional<Product> findById(@PathVariable Integer id){
+    public Optional<ProductDto> findById(@PathVariable Integer id){
         return service.findById(id);
     }
 
