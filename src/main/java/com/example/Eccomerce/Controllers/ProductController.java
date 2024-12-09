@@ -25,6 +25,11 @@ public class ProductController {
         return service.findAll();
     }
 
+    @GetMapping("/findByCategory/{id}")
+    public List<ProductDto> findByCategory(@PathVariable Integer id){
+        return service.findByCategory(id);
+    }
+
     @PostMapping("/save")
     public ProductDto save(@RequestBody ProductDto productDto){
         return service.save(productDto);

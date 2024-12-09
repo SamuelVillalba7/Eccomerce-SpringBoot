@@ -30,10 +30,27 @@ public class ProductService {
         List<Product>list = repository.findAll();
 
         for(Product product:list){
-            listDto.add(new ProductDto(product.getId(), product.getName(), product.getCategory() != null ? product.getCategory().getId() : null));
+            listDto.add(new ProductDto(product.getId(), product.getName(), product.getStock() ,product.getPrice(), product.getUrlImage() ,product.getDescription(), product.getCategory() != null ? product.getCategory().getId() : null));
         }
         return listDto;
     }
+
+    public List<ProductDto> findByCategory(Integer id){
+
+        List<ProductDto>listDto= new ArrayList<>();
+        List<Product>list = repository.findAll();
+
+        for(Product product:list){
+
+            if(product.getCategory().getId()==id){
+                listDto.add(new ProductDto(product.getId(), product.getName(), product.getStock(),product.getPrice(), product.getUrlImage() ,product.getDescription(), product.getCategory() != null ? product.getCategory().getId() : null));
+            }
+
+        }
+        return listDto;
+    }
+
+
 
     public ProductDto update(ProductDto productDto){
 
@@ -46,12 +63,20 @@ public class ProductService {
             product.setCategory(category);
             product.setName(productDto.getName());
             product.setId(productDto.getId());
+            product.setUrlImage(productDto.getUrlImage());
+            product.setStock(productDto.getStock());
+            product.setPrice(productDto.getPrice());
+            product.setDescription(product.getDescription());
 
             repository.save(product);
 
             productDto.setId(product.getId());
             productDto.setName(product.getName());
             productDto.setId_category(product.getCategory().getId());
+            productDto.setPrice(product.getPrice());
+            productDto.setStock(product.getStock());
+            productDto.setDescription(product.getDescription());
+            productDto.setUrlImage(product.getUrlImage());
         }
 
         return productDto;
@@ -67,12 +92,20 @@ public class ProductService {
             Category category= categoryOpc.get();
             product.setCategory(category);
             product.setName(productDto.getName());
+            product.setUrlImage(productDto.getUrlImage());
+            product.setStock(productDto.getStock());
+            product.setPrice(productDto.getPrice());
+            product.setDescription(product.getDescription());
 
             repository.save(product);
 
             productDto.setId(product.getId());
             productDto.setName(product.getName());
             productDto.setId_category(product.getCategory().getId());
+            productDto.setPrice(product.getPrice());
+            productDto.setStock(product.getStock());
+            productDto.setDescription(product.getDescription());
+            productDto.setUrlImage(product.getUrlImage());
 
         }
         return productDto;
@@ -86,6 +119,10 @@ public class ProductService {
             ProductDto productDto= new ProductDto();
             productDto.setId(product.getId());
             productDto.setName(product.getName());
+            productDto.setPrice(product.getPrice());
+            productDto.setStock(product.getStock());
+            productDto.setDescription(product.getDescription());
+            productDto.setUrlImage(product.getUrlImage());
             productDto.setId_category(product.getCategory().getId());
             productDtoOpc = Optional.of(productDto) ;
         }
