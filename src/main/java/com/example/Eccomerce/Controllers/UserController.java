@@ -1,8 +1,11 @@
 package com.example.Eccomerce.Controllers;
 
+import com.example.Eccomerce.Dto.UserDto;
 import com.example.Eccomerce.Entities.User;
 import com.example.Eccomerce.Servicies.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,7 +47,18 @@ public class UserController {
         return service.findById(id);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<User> findByMailAndPassword(@RequestBody UserDto userDto){
 
+        Optional<User> userOpc =  service.findByMailAndPassword(userDto.getMail(), userDto.getPassword());
+        if(userOpc.isPresent()){
+            return ResponseEntity.ok(userOpc.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+
+    }
 
 
 
