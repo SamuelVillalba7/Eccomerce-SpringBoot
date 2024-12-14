@@ -13,7 +13,30 @@ public class Category {
     @Column(name = "NAME")
     private String name;
 
+    @Column(name = "URLIMAGE")
+    private String urlImage;
+
+    @Column(name = "STATE" , columnDefinition = "BIT DEFAULT 1")
+    private Boolean state;
+
+
     public Category() {}
+
+    public Boolean getState() {
+        return state;
+    }
+
+    public void setState(Boolean state) {
+        this.state = state;
+    }
+
+    public String getUrlImage() {
+        return urlImage;
+    }
+
+    public void setUrlImage(String urlImage) {
+        this.urlImage = urlImage;
+    }
 
     public String getName() {
         return name;

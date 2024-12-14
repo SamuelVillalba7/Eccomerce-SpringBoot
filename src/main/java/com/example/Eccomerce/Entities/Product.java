@@ -24,9 +24,20 @@ public class Product {
     @Column(name="URLIMAGE",length = 1000)
     private String urlImage;
 
+    @Column(name ="STATE", columnDefinition = "BIT DEFAULT 1")
+    private Boolean state ;
+
     @ManyToOne (cascade = CascadeType.ALL)
     @JoinColumn(name = "IDCATEGORY")
     private Category category;
+
+    public Boolean getState() {
+        return state;
+    }
+
+    public void setState(Boolean state) {
+        this.state = state;
+    }
 
     public Product() {
     }

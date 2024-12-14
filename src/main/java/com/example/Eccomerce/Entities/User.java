@@ -17,6 +17,9 @@ public class User {
     @Column(name="LASTNAME", length = 50)
     private String lastname;
 
+    @Column(name="PHONE", length = 20)
+    private String phone;
+
     @Column(name="MAIL", length = 150)
     private String mail;
 
@@ -29,13 +32,22 @@ public class User {
     public User() {
     }
 
-    public User(Integer id, String name, String mail, String password, Boolean admin, String lastname) {
+    public User(Integer id, String name, String phone, String password, Boolean admin, String mail, String lastname) {
         this.id = id;
         this.name = name;
-        this.mail = mail;
+        this.phone = phone;
         this.password = password;
         this.admin = admin;
+        this.mail = mail;
         this.lastname = lastname;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public Integer getId() {

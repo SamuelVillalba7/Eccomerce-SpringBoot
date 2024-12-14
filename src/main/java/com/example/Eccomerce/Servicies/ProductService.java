@@ -30,7 +30,7 @@ public class ProductService {
         List<Product>list = repository.findAll();
 
         for(Product product:list){
-            listDto.add(new ProductDto(product.getId(), product.getName(), product.getStock() ,product.getPrice(), product.getUrlImage() ,product.getDescription(), product.getCategory() != null ? product.getCategory().getId() : null));
+            listDto.add(new ProductDto(product.getId(), product.getName(),product.getState() , product.getStock() ,product.getPrice(), product.getUrlImage() ,product.getDescription(), product.getCategory() != null ? product.getCategory().getId() : null));
         }
         return listDto;
     }
@@ -43,7 +43,7 @@ public class ProductService {
         for(Product product:list){
 
             if(product.getCategory().getId()==id){
-                listDto.add(new ProductDto(product.getId(), product.getName(), product.getStock(),product.getPrice(), product.getUrlImage() ,product.getDescription(), product.getCategory() != null ? product.getCategory().getId() : null));
+                listDto.add(new ProductDto(product.getId(), product.getName(),product.getState() , product.getStock(),product.getPrice(), product.getUrlImage() ,product.getDescription(), product.getCategory() != null ? product.getCategory().getId() : null));
             }
 
         }
@@ -60,6 +60,7 @@ public class ProductService {
             Product product = productOpc.get();
             Category category = categoryOpc.get();
 
+            product.setState(productDto.getState());
             product.setCategory(category);
             product.setName(productDto.getName());
             product.setId(productDto.getId());
@@ -70,6 +71,7 @@ public class ProductService {
 
             repository.save(product);
 
+            productDto.setState(product.getState());
             productDto.setId(product.getId());
             productDto.setName(product.getName());
             productDto.setId_category(product.getCategory().getId());
@@ -95,12 +97,14 @@ public class ProductService {
             product.setUrlImage(productDto.getUrlImage());
             product.setStock(productDto.getStock());
             product.setPrice(productDto.getPrice());
-            product.setDescription(product.getDescription());
+            product.setDescription(productDto.getDescription());
+            product.setState(productDto.getState());
 
             repository.save(product);
 
             productDto.setId(product.getId());
             productDto.setName(product.getName());
+            productDto.setState(product.getState());
             productDto.setId_category(product.getCategory().getId());
             productDto.setPrice(product.getPrice());
             productDto.setStock(product.getStock());
@@ -119,6 +123,7 @@ public class ProductService {
             ProductDto productDto= new ProductDto();
             productDto.setId(product.getId());
             productDto.setName(product.getName());
+            productDto.setState(product.getState());
             productDto.setPrice(product.getPrice());
             productDto.setStock(product.getStock());
             productDto.setDescription(product.getDescription());

@@ -12,11 +12,11 @@ public class ProductDto {
     private BigDecimal price;
     private String urlImage;
     private Integer stock;
-
+    private Boolean state;
     public ProductDto() {
     }
 
-    public ProductDto(Integer id, String name,Integer stock , BigDecimal price, String urlImage, String description, Integer id_category) {
+    public ProductDto(Integer id, String name,Boolean state ,Integer stock , BigDecimal price, String urlImage, String description, Integer id_category) {
         this.id = id;
         this.name = name;
         this.id_category = id_category;
@@ -24,6 +24,15 @@ public class ProductDto {
         this.urlImage = urlImage;
         this.description = description;
         this.stock= stock;
+        this.state= state;
+    }
+
+    public Boolean getState() {
+        return state;
+    }
+
+    public void setState(Boolean state) {
+        this.state = state;
     }
 
     public Integer getStock() {
