@@ -51,6 +51,7 @@ public class Order {
 
     public void setOrderDetails(List<OrderDetail> orderDetails) {
         this.orderDetails = orderDetails;
+        orderDetails.forEach(detail -> detail.setOrder(this));
     }
 
     public User getUser() {

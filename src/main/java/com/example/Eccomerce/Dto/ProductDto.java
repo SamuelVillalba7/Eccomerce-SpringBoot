@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 public class ProductDto {
     private Integer id;
     private String name;
-    private Integer id_category;
+    private Integer idCategory;
     private String description;
     private BigDecimal price;
     private String urlImage;
@@ -16,10 +16,10 @@ public class ProductDto {
     public ProductDto() {
     }
 
-    public ProductDto(Integer id, String name,Boolean state ,Integer stock , BigDecimal price, String urlImage, String description, Integer id_category) {
+    public ProductDto(Integer id, String name,Boolean state ,Integer stock , BigDecimal price, String urlImage, String description, Integer idCategory) {
         this.id = id;
         this.name = name;
-        this.id_category = id_category;
+        this.idCategory = idCategory;
         this.price = price;
         this.urlImage = urlImage;
         this.description = description;
@@ -83,11 +83,11 @@ public class ProductDto {
         this.name = name;
     }
 
-    public Integer getId_category() {
-        return id_category;
+    public Integer getIdCategory() {
+        return idCategory;
     }
 
-    public void setId_category(Integer id_category) {
-        this.id_category = id_category;
+    public void setIdCategory(Integer id_category) {
+        this.idCategory = id_category;
     }
 }

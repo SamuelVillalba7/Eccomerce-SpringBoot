@@ -27,8 +27,7 @@ public class OrderDetail {
     @Column(name="QUANTITY")
     private Integer quantity;
 
-    public OrderDetail(Integer id, Order order, Product product, BigDecimal unitPrice, Integer quantity) {
-        this.id = id;
+    public OrderDetail(Order order, Product product, BigDecimal unitPrice, Integer quantity) {
         this.order = order;
         this.product = product;
         this.unitPrice = unitPrice;

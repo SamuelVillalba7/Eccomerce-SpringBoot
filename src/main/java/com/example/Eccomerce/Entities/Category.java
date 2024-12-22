@@ -16,6 +16,9 @@ public class Category {
     @Column(name = "URLIMAGE")
     private String urlImage;
 
+    @Column(name = "COLOR" )
+    private String color;
+
     @Column(name = "STATE" , columnDefinition = "BIT DEFAULT 1")
     private Boolean state;
 
@@ -53,4 +56,13 @@ public class Category {
     public void setId(Integer id) {
         this.id = id;
     }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
 }
+

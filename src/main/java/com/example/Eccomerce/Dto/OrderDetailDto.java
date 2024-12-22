@@ -1,9 +1,11 @@
 package com.example.Eccomerce.Dto;
 
+import java.math.BigDecimal;
+
 public class OrderDetailDto {
 
     private Integer id;
-    private Integer unitPrice;
+    private BigDecimal unitPrice;
     private Integer idOrder;
     private Integer idProduct ;
     private Integer quantity;
@@ -11,7 +13,7 @@ public class OrderDetailDto {
     public OrderDetailDto() {
     }
 
-    public OrderDetailDto(Integer id, Integer idOrder, Integer unitPrice, Integer quantity, Integer idProduct) {
+    public OrderDetailDto(Integer id, Integer idOrder, BigDecimal unitPrice, Integer quantity, Integer idProduct) {
         this.id = id;
         this.idOrder = idOrder;
         this.unitPrice = unitPrice;
@@ -27,11 +29,11 @@ public class OrderDetailDto {
         this.id = id;
     }
 
-    public Integer getUnitPrice() {
+    public BigDecimal getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(Integer unitPrice) {
+    public void setUnitPrice(BigDecimal unitPrice) {
         this.unitPrice = unitPrice;
     }
 

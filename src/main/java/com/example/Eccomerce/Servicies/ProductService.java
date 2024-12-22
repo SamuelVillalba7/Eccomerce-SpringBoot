@@ -55,7 +55,7 @@ public class ProductService {
     public ProductDto update(ProductDto productDto){
 
         Optional<Product>productOpc= repository.findById(productDto.getId());
-        Optional<Category>categoryOpc=repositoryCategory.findById(productDto.getId_category());
+        Optional<Category>categoryOpc=repositoryCategory.findById(productDto.getIdCategory());
         if(productOpc.isPresent() && categoryOpc.isPresent()){
             Product product = productOpc.get();
             Category category = categoryOpc.get();
@@ -74,7 +74,7 @@ public class ProductService {
             productDto.setState(product.getState());
             productDto.setId(product.getId());
             productDto.setName(product.getName());
-            productDto.setId_category(product.getCategory().getId());
+            productDto.setIdCategory(product.getCategory().getId());
             productDto.setPrice(product.getPrice());
             productDto.setStock(product.getStock());
             productDto.setDescription(product.getDescription());
@@ -88,7 +88,7 @@ public class ProductService {
 
         Product product = new Product();
 
-        Optional<Category> categoryOpc =repositoryCategory.findById(productDto.getId_category()) ;
+        Optional<Category> categoryOpc =repositoryCategory.findById(productDto.getIdCategory()) ;
 
         if(categoryOpc.isPresent()){
             Category category= categoryOpc.get();
@@ -105,7 +105,7 @@ public class ProductService {
             productDto.setId(product.getId());
             productDto.setName(product.getName());
             productDto.setState(product.getState());
-            productDto.setId_category(product.getCategory().getId());
+            productDto.setIdCategory(product.getCategory().getId());
             productDto.setPrice(product.getPrice());
             productDto.setStock(product.getStock());
             productDto.setDescription(product.getDescription());
@@ -128,7 +128,7 @@ public class ProductService {
             productDto.setStock(product.getStock());
             productDto.setDescription(product.getDescription());
             productDto.setUrlImage(product.getUrlImage());
-            productDto.setId_category(product.getCategory().getId());
+            productDto.setIdCategory(product.getCategory().getId());
             productDtoOpc = Optional.of(productDto) ;
         }
         return productDtoOpc;
