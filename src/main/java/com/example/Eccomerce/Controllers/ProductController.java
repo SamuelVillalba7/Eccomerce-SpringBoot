@@ -50,4 +50,13 @@ public class ProductController {
         return service.findById(id);
     }
 
+    @PutMapping("/lowLogic")
+    public ProductDto lowLogic(@RequestParam Integer id){
+        return  service.lowLogic(id);
+    }
+    @PutMapping("/highLogic")
+    public ProductDto highLogic(@RequestParam Integer id){
+        return  service.highLogic(id);
+    }
+
 }

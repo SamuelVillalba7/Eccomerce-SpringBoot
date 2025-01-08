@@ -27,7 +27,7 @@ public class Product {
     @Column(name ="STATE", columnDefinition = "BIT DEFAULT 1")
     private Boolean state ;
 
-    @ManyToOne (cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "IDCATEGORY")
     private Category category;
 
