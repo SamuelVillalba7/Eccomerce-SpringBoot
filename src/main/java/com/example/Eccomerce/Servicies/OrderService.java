@@ -22,12 +22,14 @@ public class OrderService {
     private OrderRepository repository;
     private UserRepository repositoryUser;
     private ProductRepository repositoryProduct;
+    private ProductService serviceProduct;
 
     @Autowired
-    public OrderService(OrderRepository repository, ProductRepository repositoryProduct, UserRepository repositoryUser) {
+    public OrderService(OrderRepository repository, ProductRepository repositoryProduct, UserRepository repositoryUser,ProductService serviceProduct) {
         this.repository = repository;
         this.repositoryProduct = repositoryProduct;
         this.repositoryUser = repositoryUser;
+        this.serviceProduct = serviceProduct;
     }
 
     public List<OrderDto> findAll(){
@@ -84,11 +86,10 @@ public class OrderService {
                 orderDetailList.add( new OrderDetail(order,product,detail.getUnitPrice(),detail.getQuantity()));
             }
         }
+
         order.setOrderDetails(orderDetailList);
         update(order);
-
-
-
+        serviceProduct.discountStock(orderDetailList);
       return convertToDto(order);
     }
 
@@ -117,6 +118,8 @@ public class OrderService {
     public Order update (Order order){
         return repository.save(order);
     }
+
+
 
 
 

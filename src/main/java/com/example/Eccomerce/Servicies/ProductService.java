@@ -3,6 +3,7 @@ package com.example.Eccomerce.Servicies;
 import aj.org.objectweb.asm.Opcodes;
 import com.example.Eccomerce.Dto.ProductDto;
 import com.example.Eccomerce.Entities.Category;
+import com.example.Eccomerce.Entities.OrderDetail;
 import com.example.Eccomerce.Entities.Product;
 import com.example.Eccomerce.Repositories.CategoryRepository;
 import com.example.Eccomerce.Repositories.ProductRepository;
@@ -152,5 +153,16 @@ public class ProductService {
         productDto.setDescription(product.getDescription());
         productDto.setUrlImage(product.getUrlImage());
         return productDto;
+    }
+
+    public void discountStock(List<OrderDetail> list){
+
+        for(OrderDetail detail:list){
+            Integer stock = detail.getProduct().getStock();
+            detail.getProduct().setStock(stock - (detail.getQuantity()));
+            update(convertToDto(detail.getProduct()));
+        }
+
+
     }
 }
