@@ -6,6 +6,7 @@ import com.example.Eccomerce.Entities.Order;
 import com.example.Eccomerce.Entities.OrderDetail;
 import com.example.Eccomerce.Entities.Product;
 import com.example.Eccomerce.Entities.User;
+import com.example.Eccomerce.Exceptions.ResourceNotFoundException;
 import com.example.Eccomerce.Repositories.OrderRepository;
 import com.example.Eccomerce.Repositories.ProductRepository;
 import com.example.Eccomerce.Repositories.UserRepository;
@@ -63,7 +64,7 @@ public class OrderService {
     }
 
 
-    public OrderDto save(OrderDto orderDto){
+    public OrderDto save(OrderDto orderDto) throws ResourceNotFoundException {
 
         Order order = new Order();
         Optional<User> userOpc = null;

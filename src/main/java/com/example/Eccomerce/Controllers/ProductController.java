@@ -3,8 +3,11 @@ package com.example.Eccomerce.Controllers;
 
 import com.example.Eccomerce.Dto.ProductDto;
 import com.example.Eccomerce.Entities.Product;
+import com.example.Eccomerce.Exceptions.ResourceNotFoundException;
 import com.example.Eccomerce.Servicies.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,8 +39,9 @@ public class ProductController {
     }
 
     @PutMapping("/update")
-    public ProductDto update(@RequestBody ProductDto productDto){
-        return service.update(productDto);
+    public ResponseEntity<?> update(@RequestBody ProductDto productDto) throws ResourceNotFoundException {
+        ProductDto dto = service.update(productDto);
+        return ResponseEntity.status(HttpStatus.OK).body("me modifico el producto con id : " + dto.getId());
     }
 
     @DeleteMapping("/delete")
@@ -51,11 +55,11 @@ public class ProductController {
     }
 
     @PutMapping("/lowLogic")
-    public ProductDto lowLogic(@RequestParam Integer id){
+    public ProductDto lowLogic(@RequestParam Integer id) throws ResourceNotFoundException {
         return  service.lowLogic(id);
     }
     @PutMapping("/highLogic")
-    public ProductDto highLogic(@RequestParam Integer id){
+    public ProductDto highLogic(@RequestParam Integer id) throws ResourceNotFoundException {
         return  service.highLogic(id);
     }
 

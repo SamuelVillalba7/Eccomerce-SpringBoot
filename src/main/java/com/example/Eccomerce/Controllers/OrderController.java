@@ -2,6 +2,7 @@ package com.example.Eccomerce.Controllers;
 
 import com.example.Eccomerce.Dto.OrderDto;
 import com.example.Eccomerce.Entities.Order;
+import com.example.Eccomerce.Exceptions.ResourceNotFoundException;
 import com.example.Eccomerce.Servicies.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class OrderController {
     }
 
     @PostMapping("/save")
-    public OrderDto save (@RequestBody OrderDto orderDto){
+    public OrderDto save (@RequestBody OrderDto orderDto) throws ResourceNotFoundException {
         return service.save(orderDto);
     }
 

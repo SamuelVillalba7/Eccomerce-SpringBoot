@@ -5,6 +5,7 @@ import com.example.Eccomerce.Dto.ProductDto;
 import com.example.Eccomerce.Entities.Category;
 import com.example.Eccomerce.Entities.OrderDetail;
 import com.example.Eccomerce.Entities.Product;
+import com.example.Eccomerce.Exceptions.ResourceNotFoundException;
 import com.example.Eccomerce.Repositories.CategoryRepository;
 import com.example.Eccomerce.Repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,28 +52,26 @@ public class ProductService {
 
 
 
-    public ProductDto update(ProductDto productDto){
+    public ProductDto update(ProductDto productDto) throws ResourceNotFoundException {
 
-        Optional<Product>productOpc= repository.findById(productDto.getId());
-        Optional<Category>categoryOpc=repositoryCategory.findById(productDto.getIdCategory());
-        if(productOpc.isPresent() && categoryOpc.isPresent()){
-            Product product = productOpc.get();
-            Category category = categoryOpc.get();
+        Product product = repository.findById(productDto.getId())
+                .orElseThrow(()-> new ResourceNotFoundException("no se encontro producto con id : "+ productDto.getId()));
+        Category category= repositoryCategory.findById(productDto.getIdCategory())
+                .orElseThrow(()->new ResourceNotFoundException("no se encontro categoria con id : " + productDto.getIdCategory()));
 
-            product.setState(productDto.getState());
-            product.setCategory(category);
-            product.setName(productDto.getName());
-            product.setId(productDto.getId());
-            product.setUrlImage(productDto.getUrlImage());
-            product.setStock(productDto.getStock());
-            product.setPrice(productDto.getPrice());
-            product.setDescription(productDto.getDescription());
+        product.setState(productDto.getState());
+        product.setCategory(category);
+        product.setName(productDto.getName());
+        product.setId(productDto.getId());
+        product.setUrlImage(productDto.getUrlImage());
+        product.setStock(productDto.getStock());
+        product.setPrice(productDto.getPrice());
+        product.setDescription(productDto.getDescription());
+        repository.save(product);
+        return convertToDto(product);
 
-            repository.save(product);
-            return convertToDto(product);
-        }
 
-        return productDto;
+
     }
 
     public ProductDto save(ProductDto productDto){
@@ -121,7 +120,7 @@ public class ProductService {
     }
 
 
-    public ProductDto lowLogic(Integer id) {
+    public ProductDto lowLogic(Integer id) throws ResourceNotFoundException {
 
         ProductDto productDto= findById(id)
             .orElseThrow(()-> new RuntimeException("Product not found"));
@@ -132,7 +131,7 @@ public class ProductService {
     }
 
 
-    public ProductDto highLogic(Integer id) {
+    public ProductDto highLogic(Integer id) throws ResourceNotFoundException {
 
         ProductDto productDto= findById(id)
                 .orElseThrow(()-> new RuntimeException("Product not found"));
@@ -155,7 +154,7 @@ public class ProductService {
         return productDto;
     }
 
-    public void discountStock(List<OrderDetail> list){
+    public void discountStock(List<OrderDetail> list) throws ResourceNotFoundException {
 
         for(OrderDetail detail:list){
             Integer stock = detail.getProduct().getStock();
