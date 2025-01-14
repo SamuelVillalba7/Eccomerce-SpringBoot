@@ -59,14 +59,7 @@ public class ProductService {
         Category category= repositoryCategory.findById(productDto.getIdCategory())
                 .orElseThrow(()->new ResourceNotFoundException("no se encontro categoria con id : " + productDto.getIdCategory()));
 
-        product.setState(productDto.getState());
-        product.setCategory(category);
-        product.setName(productDto.getName());
-        product.setId(productDto.getId());
-        product.setUrlImage(productDto.getUrlImage());
-        product.setStock(productDto.getStock());
-        product.setPrice(productDto.getPrice());
-        product.setDescription(productDto.getDescription());
+        product = convertToEntity(product,productDto,category);
         repository.save(product);
         return convertToDto(product);
 
@@ -74,71 +67,52 @@ public class ProductService {
 
     }
 
-    public ProductDto save(ProductDto productDto){
+    public ProductDto save(ProductDto productDto) throws ResourceNotFoundException {
 
         Product product = new Product();
 
-        Optional<Category> categoryOpc =repositoryCategory.findById(productDto.getIdCategory()) ;
+        Category category = repositoryCategory.findById(productDto.getIdCategory()).
+                orElseThrow(()->new ResourceNotFoundException("categoria no valida : "+ productDto.getIdCategory()));
 
-        if(categoryOpc.isPresent()){
-            Category category= categoryOpc.get();
-            product.setCategory(category);
-            product.setName(productDto.getName());
-            product.setUrlImage(productDto.getUrlImage());
-            product.setStock(productDto.getStock());
-            product.setPrice(productDto.getPrice());
-            product.setDescription(productDto.getDescription());
-            product.setState(productDto.getState());
+        product = convertToEntity(product,productDto,category);
 
-            repository.save(product);
-            return convertToDto(product);
-        }
-        return productDto;
+        repository.save(product);
+
+        return convertToDto(product);
+
+
     }
 
-    public Optional<ProductDto> findById(Integer id){
-        Optional<ProductDto> productDtoOpc= null;
-        Optional<Product>productOpc=repository.findById(id);
-        if(productOpc.isPresent()){
-            Product product= productOpc.get();
-            ProductDto productDto= new ProductDto();
-            productDto.setId(product.getId());
-            productDto.setName(product.getName());
-            productDto.setState(product.getState());
-            productDto.setPrice(product.getPrice());
-            productDto.setStock(product.getStock());
-            productDto.setDescription(product.getDescription());
-            productDto.setUrlImage(product.getUrlImage());
-            productDto.setIdCategory(product.getCategory().getId());
-            productDtoOpc = Optional.of(productDto) ;
-        }
-        return productDtoOpc;
+    public ProductDto findById(Integer id) throws ResourceNotFoundException {
+
+        Product product=repository.findById(id).orElseThrow(()->new ResourceNotFoundException("no se encontro el producto con id : " + id));
+        return convertToDto(product);
     }
 
-    public void deleteById(Integer id){
-         repository.deleteById(id);
+    public void deleteById(Integer id) throws ResourceNotFoundException {
+
+        repository.findById(id).
+                orElseThrow(()-> new  ResourceNotFoundException("no se encontro producto con id : " + id));
+
+        repository.deleteById(id);
+    }
+
+
+    public ProductDto toggleState(Boolean state, Integer id) throws ResourceNotFoundException {
+        Product product= repository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException("Product not found"));
+        product.setState(state);
+       return update(convertToDto(product));
     }
 
 
     public ProductDto lowLogic(Integer id) throws ResourceNotFoundException {
-
-        ProductDto productDto= findById(id)
-            .orElseThrow(()-> new RuntimeException("Product not found"));
-        productDto.setState(false);
-        return update(productDto);
-
-
+        return toggleState(false,id);
     }
 
 
     public ProductDto highLogic(Integer id) throws ResourceNotFoundException {
-
-        ProductDto productDto= findById(id)
-                .orElseThrow(()-> new RuntimeException("Product not found"));
-        productDto.setState(true);
-        return update(productDto);
-
-
+        return toggleState(true,id);
     }
     public ProductDto convertToDto(Product product){
 
@@ -152,6 +126,19 @@ public class ProductService {
         productDto.setDescription(product.getDescription());
         productDto.setUrlImage(product.getUrlImage());
         return productDto;
+    }
+
+
+    public Product convertToEntity(Product product,ProductDto productDto,Category category){
+        product.setState(productDto.getState());
+        product.setCategory(category);
+        product.setName(productDto.getName());
+        product.setId(productDto.getId());
+        product.setUrlImage(productDto.getUrlImage());
+        product.setStock(productDto.getStock());
+        product.setPrice(productDto.getPrice());
+        product.setDescription(productDto.getDescription());
+        return product;
     }
 
     public void discountStock(List<OrderDetail> list) throws ResourceNotFoundException {
