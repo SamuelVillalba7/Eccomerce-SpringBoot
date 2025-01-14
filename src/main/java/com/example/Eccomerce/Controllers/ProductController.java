@@ -24,43 +24,48 @@ public class ProductController {
         this.service=service;
     }
     @GetMapping("/findAll")
-    public List<ProductDto> findAll(){
-        return service.findAll();
+    public ResponseEntity<List<ProductDto>> findAll() {
+        return ResponseEntity.ok(service.findAll());
     }
 
     @GetMapping("/findByCategory/{id}")
-    public List<ProductDto> findByCategory(@PathVariable Integer id){
-        return service.findByCategory(id);
+    public ResponseEntity<List<ProductDto>> findByCategory(@PathVariable Integer id) throws ResourceNotFoundException {
+        return ResponseEntity.ok(service.findByCategory(id));
     }
 
     @PostMapping("/save")
-    public ProductDto save(@RequestBody ProductDto productDto){
-        return service.save(productDto);
+    public ResponseEntity<String> save(@RequestBody ProductDto productDto) throws ResourceNotFoundException {
+        ProductDto dto= service.save(productDto);
+        return ResponseEntity.ok("se agrego correctamente , su id es : "+dto.getId());
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> update(@RequestBody ProductDto productDto) throws ResourceNotFoundException {
-        ProductDto dto = service.update(productDto);
-        return ResponseEntity.status(HttpStatus.OK).body("me modifico el producto con id : " + dto.getId());
+    public ResponseEntity<String> update(@RequestBody ProductDto productDto) throws ResourceNotFoundException {
+        service.update(productDto);
+        return ResponseEntity.ok("se modifico correctamente el producto con id : " + productDto.getId() );
     }
 
     @DeleteMapping("/delete")
-    public void delete(@RequestParam Integer id){
+    public ResponseEntity<String> delete(@RequestParam Integer id) throws ResourceNotFoundException {
         service.deleteById(id);
+        return ResponseEntity.ok("se elimino correctamente el producto con id : "+ id);
+
     }
 
     @GetMapping("/findById/{id}")
-    public Optional<ProductDto> findById(@PathVariable Integer id){
-        return service.findById(id);
+    public ResponseEntity<ProductDto> findById(@PathVariable Integer id) throws ResourceNotFoundException {
+        return ResponseEntity.ok(service.findById(id));
     }
 
     @PutMapping("/lowLogic")
-    public ProductDto lowLogic(@RequestParam Integer id) throws ResourceNotFoundException {
-        return  service.lowLogic(id);
+    public ResponseEntity<String> lowLogic(@RequestParam Integer id) throws ResourceNotFoundException {
+        service.lowLogic(id);
+        return ResponseEntity.ok("se dio baja logica correctamente a producto con id : "+ id);
     }
     @PutMapping("/highLogic")
-    public ProductDto highLogic(@RequestParam Integer id) throws ResourceNotFoundException {
-        return  service.highLogic(id);
+    public ResponseEntity<String> highLogic(@RequestParam Integer id) throws ResourceNotFoundException {
+        service.highLogic(id);
+        return ResponseEntity.ok("se dio de alta logica correctamente a producto con id : "+ id);
     }
 
 }

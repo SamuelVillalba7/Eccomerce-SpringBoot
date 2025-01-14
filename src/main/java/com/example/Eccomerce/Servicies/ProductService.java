@@ -37,10 +37,11 @@ public class ProductService {
         return listDto;
     }
 
-    public List<ProductDto> findByCategory(Integer id){
+    public List<ProductDto> findByCategory(Integer id) throws ResourceNotFoundException {
 
         List<ProductDto>listDto= new ArrayList<>();
         List<Product>list = repository.findAll();
+        repositoryCategory.findById(id).orElseThrow(()->new ResourceNotFoundException("no se encontro categoria con id : "+id));
 
         for(Product product:list){
             if(product.getCategory().getId()==id){
