@@ -26,6 +26,11 @@ public class ProductService {
         this.repositoryCategory = repositoryCategory;
     }
 
+    private Product getProductOrThrow(Integer id) throws ResourceNotFoundException {
+        return repository.findById(id)
+                .orElseThrow(()-> new ResourceNotFoundException ("no se encontro producto con id : "+id));
+    }
+
     public List<ProductDto> findAll(){
 
         List<ProductDto>listDto= new ArrayList<>();
@@ -55,8 +60,7 @@ public class ProductService {
 
     public ProductDto update(ProductDto productDto) throws ResourceNotFoundException {
 
-        Product product = repository.findById(productDto.getId())
-                .orElseThrow(()-> new ResourceNotFoundException("no se encontro producto con id : "+ productDto.getId()));
+        Product product = getProductOrThrow(productDto.getId());
         Category category= repositoryCategory.findById(productDto.getIdCategory())
                 .orElseThrow(()->new ResourceNotFoundException("no se encontro categoria con id : " + productDto.getIdCategory()));
 
@@ -73,9 +77,9 @@ public class ProductService {
         Product product = new Product();
 
         Category category = repositoryCategory.findById(productDto.getIdCategory()).
-                orElseThrow(()->new ResourceNotFoundException("categoria no valida : "+ productDto.getIdCategory()));
+                orElseThrow(()->new ResourceNotFoundException("no se encontro categoria con id : "+ productDto.getIdCategory()));
 
-        product = convertToEntity(product,productDto,category);
+         product = convertToEntity(product,productDto,category);
 
         repository.save(product);
 
@@ -86,22 +90,19 @@ public class ProductService {
 
     public ProductDto findById(Integer id) throws ResourceNotFoundException {
 
-        Product product=repository.findById(id).orElseThrow(()->new ResourceNotFoundException("no se encontro el producto con id : " + id));
+        Product product= getProductOrThrow(id);
         return convertToDto(product);
     }
 
     public void deleteById(Integer id) throws ResourceNotFoundException {
 
-        repository.findById(id).
-                orElseThrow(()-> new  ResourceNotFoundException("no se encontro producto con id : " + id));
-
+        getProductOrThrow(id);
         repository.deleteById(id);
     }
 
 
     public ProductDto toggleState(Boolean state, Integer id) throws ResourceNotFoundException {
-        Product product= repository.findById(id)
-                .orElseThrow(()-> new ResourceNotFoundException("Product not found"));
+        Product product= getProductOrThrow(id);
         product.setState(state);
        return update(convertToDto(product));
     }

@@ -2,6 +2,7 @@ package com.example.Eccomerce.Controllers;
 
 import com.example.Eccomerce.Dto.UserDto;
 import com.example.Eccomerce.Entities.User;
+import com.example.Eccomerce.Exceptions.ResourceNotFoundException;
 import com.example.Eccomerce.Servicies.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,39 +24,36 @@ public class UserController {
     }
 
     @GetMapping("/findAll")
-    public List<User>findAll(){
-        return service.findAll();
+    public ResponseEntity<List<User>>findAll(){
+        return ResponseEntity.ok(service.findAll());
     }
 
     @PostMapping("/save")
-    public User save(@RequestBody User user){
-        return service.save(user);
+    public ResponseEntity<User> save(@RequestBody User user){
+       return ResponseEntity.ok(service.save(user));
     }
 
     @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable Integer id){
+    public ResponseEntity<String> delete(@PathVariable Integer id) throws ResourceNotFoundException {
         service.delete(id);
+        return ResponseEntity.ok("Se elimino correctamente el user con id : "+ id );
     }
 
     @PutMapping("/update")
-    public User update(@RequestBody User user){
-        return service.update(user);
+    public ResponseEntity<User> update(@RequestBody User user) throws ResourceNotFoundException{
+        return ResponseEntity.ok(service.update(user));
     }
 
     @GetMapping("/findById/{id}")
-    public Optional<User> findById(@PathVariable Integer id){
-        return service.findById(id);
+    public ResponseEntity<User> findById(@PathVariable Integer id) throws ResourceNotFoundException{
+        return ResponseEntity.ok(service.findById(id));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<User> findByMailAndPassword(@RequestBody UserDto userDto){
+    public ResponseEntity<User> findByMailAndPassword(@RequestBody UserDto userDto) throws ResourceNotFoundException{
 
-        Optional<User> userOpc =  service.findByMailAndPassword(userDto.getMail(), userDto.getPassword());
-        if(userOpc.isPresent()){
-            return ResponseEntity.ok(userOpc.get());
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+        return ResponseEntity.ok(service.findByMailAndPassword(userDto.getMail(), userDto.getPassword()));
+
 
 
     }
