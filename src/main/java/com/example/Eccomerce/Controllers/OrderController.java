@@ -5,6 +5,7 @@ import com.example.Eccomerce.Entities.Order;
 import com.example.Eccomerce.Exceptions.ResourceNotFoundException;
 import com.example.Eccomerce.Servicies.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,18 +23,13 @@ public class OrderController {
     }
 
     @GetMapping("/findAll")
-    public List<OrderDto>findAll(){
-        return service.findAll();
+    public ResponseEntity<List<OrderDto>>findAll(){
+        return ResponseEntity.ok(service.findAll());
     }
 
     @PostMapping("/save")
-    public OrderDto save (@RequestBody OrderDto orderDto) throws ResourceNotFoundException {
-        return service.save(orderDto);
-    }
-
-    @PostMapping("/saveFuncional")
-    public OrderDto saveFuncional (@RequestBody OrderDto orderDto){
-        return service.saveFuncional(orderDto);
+    public ResponseEntity<OrderDto> save (@RequestBody OrderDto orderDto) throws ResourceNotFoundException {
+        return ResponseEntity.ok(service.save(orderDto));
     }
 
 
