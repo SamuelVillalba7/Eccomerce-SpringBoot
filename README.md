@@ -12,8 +12,6 @@ Este proyecto es un backend de **eCommerce desarrollado con Spring Boot y SQL Se
 
 - ✅ **Conexión a SQL Server**: Configuración lista para producción.
 - ✅ **API REST**: Endpoints para productos, usuarios, categorías y órdenes.
-- ✅ **JWT Authentication**: Seguridad con tokens para endpoints protegidos.
-- ✅ **Swagger UI**: Documentación interactiva y lista para testear.
 - ✅ **DTOs y Mappers**: Separación entre modelos y datos de entrada/salida.
 - ✅ **Manejo global de excepciones**: Mejor control de errores.
 - ✅ **Arquitectura limpia y mantenible**
@@ -22,7 +20,7 @@ Este proyecto es un backend de **eCommerce desarrollado con Spring Boot y SQL Se
 
 ## 🚀 Requisitos previos
 
-- ☕ **Java 17+**
+- ☕ **Java 21**
 - 🛢️ **SQL Server** instalado y configurado
 - 🧰 **Maven** como gestor de dependencias
 - 📬 **Postman** o navegador para probar desde **Swagger UI**
@@ -37,6 +35,21 @@ Este proyecto es un backend de **eCommerce desarrollado con Spring Boot y SQL Se
 git clone https://github.com/SamuelVillalba7/Eccomerce-SpringBoot.git
 cd Eccomerce-SpringBoot
 ```
+### 2. Configurar la base de datos
+Modifica el archivo application.properties con tus credenciales de SQL Server:
+```bash
+spring.datasource.url=jdbc:sqlserver://localhost:1433;databaseName=ecommerce_db;encrypt=true;trustServerCertificate=true
+spring.datasource.username=tu_usuario
+spring.datasource.password=tu_contraseña
+spring.jpa.hibernate.ddl-auto=update
+```
+### 3. Ejecutar la aplicación
+```bash
+mvn spring-boot:run
+```
+La aplicación estará disponible en:
+🔹 Local: http://localhost:8080
+
 
 ---
 
