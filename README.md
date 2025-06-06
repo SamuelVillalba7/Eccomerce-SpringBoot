@@ -4,7 +4,7 @@
 ![SQL Server](https://img.shields.io/badge/SQL%2520Server-Microsoft-blue)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 
-Este proyecto es un backend de **eCommerce desarrollado con Spring Boot y SQL Server**. Proporciona una API RESTful completa para gestionar productos, usuarios, categorías y pedidos, siguiendo buenas prácticas como el uso de DTOs, arquitectura en capas, seguridad con JWT y documentación con Swagger.
+Este proyecto es un backend de **eCommerce desarrollado con Spring Boot y SQL Server**. Proporciona una API RESTful completa para gestionar productos, usuarios, categorías y pedidos, siguiendo buenas prácticas como el uso de DTOs y arquitectura en capas.
 
 ---
 
